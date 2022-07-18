@@ -1,0 +1,29 @@
+<!Doctype Html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <button type="btn" id="chatMessageSend">Click Button</button>
+    </body>
+     <script>
+        chatSocket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
+
+chatSocket.onopen = function(e) {
+    console.log("Successfully connected to the WebSocket.");
+}
+chatMessageSend.onclick = function() {
+   
+    chatSocket.send(JSON.stringify({
+        "message": "send message",
+    }));
+ 
+};
+
+chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log(data);
+}
+     </script>
+</html>
+
