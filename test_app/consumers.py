@@ -12,12 +12,13 @@ class messageConsumer(WebsocketConsumer):
         super().__init__(args, kwargs)
         self.set_name = None
         self.name = None
+        self.user = None
         
     def connect(self):
         
         self.name = self.scope['url_route']['kwargs']['name']
         self.set_name = f'chat_{self.name}'
-       
+        self.user = self.scope['user']
         
         self.accept()
 
@@ -51,6 +52,8 @@ class messageConsumer(WebsocketConsumer):
         
 
     def payload(self, event):
+        if self.user.is_authenticated:
+            print(self.user)
         #sending to every except sender
         if self.channel_name != event.get('sender_channel_name'):
 
